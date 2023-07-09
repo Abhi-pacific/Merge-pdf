@@ -1,5 +1,6 @@
 from PyPDF2 import PdfWriter
 import pyttsx3
+import os
 
 class Pdf_Merge:
     def __init__(self):
@@ -15,9 +16,23 @@ class Pdf_Merge:
         engine.say('Welcome to PDF merger')
         engine.say('dont forget to follow Abhishek on Github')
         print('Welcome to PDF-Merger')
+        print(r'format for entering the path D:\\rog_wall\\certificates')
         engine.runAndWait()
+    def merger(self):
+        merge = PdfWriter()
+        print(os.getcwd())
+        path = input('Enter the path of the folder : ')
+        print(path)
+        new_path = os.chdir(path)
+        for file in os.listdir():
+            if file.endswith('.pdf'):
+                merge.append(file)
+        merge.write('merged_pdf.pdf')
+        merge.close()
+
 
 
 def main():
     pd = Pdf_Merge()
+    pd.merger()
 main()
