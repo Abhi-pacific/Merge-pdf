@@ -27,15 +27,12 @@ class Pdf_Merge:
         print(r'(D:\\rog_wall\\certificates)')
         self.merger(engine)
     # Merge code start from here
-    def merger(self,engine):
+    def merger(self, engine):
         merge = PdfWriter()
         while True:
-            for_exit =int(input('If you want to exit press 1 : '))
-            # using 1 for exit in if condition
+            for_exit = int(input('If you want to exit press 1 : '))
             if for_exit == 1:
-                engine.say('Exiting... thank you for using me')
-                engine.runAndWait()
-                raise SystemExit('Thank you for using me')
+                self.exit(engine)
             path = input('Enter the path of the folder : ')
             engine.say('Your entered path is ')
             print('Your entered path is :{:^8}'.format(path))
@@ -44,22 +41,32 @@ class Pdf_Merge:
                 for file in os.listdir():
                     if file.endswith('.pdf'):
                         merge.append(file)
-                engine.say('Please Enter name for new file : ')
-                engine.runAndWait()
-                print('Please do not add .pdf in name')
-                new_file_name = input('Please Enter name for new file ')
-                merge.write(new_file_name+'.pdf')
+                self.get_new_file_name(merge, engine)
                 merge.close()
-                engine.say('New PDF created, Thanks for using me')
-                engine.runAndWait()
-                raise SystemExit('Thanks you for using me')
+                self.exit(engine)
             except FileNotFoundError:
                 engine.say('I believe your entered path is wrong')
                 engine.runAndWait()
                 print('Wrong Path...')
 
+    def get_new_file_name(self, merge, engine):
+        engine.say('Please Enter name for new file : ')
+        engine.runAndWait()
+        print('Please do not add .pdf in name')
+        new_file_name = input('Please Enter name for new file ')
+        merge.write(new_file_name + '.pdf')
+        engine.say('New PDF created')
+        engine.runAndWait()
 
+    def exit(self, engine):
+        engine.say('Exiting... thank you for using me')
+        engine.runAndWait()
+        raise SystemExit('Thank you for using me')
 
 def main():
+    """
+    This function is the main entry point of the program.
+    It initializes the Pdf_Merge object.
+    """
     pd = Pdf_Merge()
 main()
